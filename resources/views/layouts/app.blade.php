@@ -10,12 +10,12 @@
 </head>
 <body>
 
-<div id="app">
+<div id="app" class="py-5">
     <main class="container-fluid">
         @yield('content')
     </main>
 </div>
-
+<script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 <script type="text/javascript" src="{{mix('js/app.js')}}"></script>
 </body>
 </html>

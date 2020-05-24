@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\NewTweetsListener;
 use App\Tweet;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Http\Request;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Pusher\Pusher;
 
 class AddMessageJob implements ShouldQueue
 {
@@ -36,5 +38,19 @@ class AddMessageJob implements ShouldQueue
         $tweet = new Tweet();
         $tweet->fill($this->inputs);
         $tweet->save();
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            [
+                'cluster' => 'eu',
+                'useTLS' => true
+            ]
+        );
+
+        $data = $tweet->first()->load('category')->toArray();
+
+        $pusher->trigger('my-channel', 'my-event', $data);
     }
 }

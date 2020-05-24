@@ -3,7 +3,7 @@
         <div class="card my-3 tweet"
             v-for="tweet in tweets">
             <div class="card-header">
-                {{tweet.category.title}}
+                {{ tweet.category ? tweet.category.title : '' }}
             </div>
             <div class="card-body">
                 <h3>{{tweet.username}}</h3>
@@ -30,13 +30,22 @@
                 .then(response => {
                     this.tweets = response.data;
                     this.lastId = this.tweets[this.tweets.length - 1].id;
-                    console.log(response);
-                    console.log(this.lastId);
-
                 })
                 .catch(error => {
                     console.log(error.response);
-                })
+                });
+
+            Pusher.logToConsole = false;
+
+            var pusher = new Pusher('82a64a28cb97cd4f214b', {
+                cluster: 'eu'
+            });
+
+            var channel = pusher.subscribe('my-channel');
+
+            channel.bind('my-event', (data) => {
+                this.tweets.unshift(data)
+            });
         },
         methods: {
             loadMore() {
@@ -46,15 +55,12 @@
                     }
                 })
                     .then(response => {
-                        console.log(response.data);
-
                         if (response.data.length > 0) {
                             this.tweets = this.tweets.concat(response.data)
                             this.lastId = this.tweets[this.tweets.length - 1].id;
                         } else {
                             this.isEnd = true;
                         }
-
                     })
                     .catch(error => {
                         console.log(error.response);

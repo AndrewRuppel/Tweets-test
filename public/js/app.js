@@ -1978,6 +1978,17 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (error) {
       console.log(error.response);
     });
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('82a64a28cb97cd4f214b', {
+      cluster: 'eu'
+    });
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function (data) {
+      console.log(data);
+      console.log(_this.tweets[0]);
+
+      _this.tweets.unshift(data);
+    });
   },
   methods: {
     loadMore: function loadMore() {
@@ -19659,7 +19670,9 @@ var render = function() {
         return _c("div", { staticClass: "card my-3 tweet" }, [
           _c("div", { staticClass: "card-header" }, [
             _vm._v(
-              "\n            " + _vm._s(tweet.category.title) + "\n        "
+              "\n            " +
+                _vm._s(tweet.category ? tweet.category.title : "") +
+                "\n        "
             )
           ]),
           _vm._v(" "),
