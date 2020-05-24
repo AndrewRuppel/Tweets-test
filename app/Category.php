@@ -13,6 +13,6 @@ class Category extends Model
      */
     public function tweets()
     {
-        return $this->hasMany('App\Tweets');
+        return $this->hasMany('App\Tweet');
     }
 }

@@ -13,4 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'TweetsController@index');
+Route::get('/', 'TweetsController@index')
+    ->name('index');
+
+Route::post('/send_tweet', 'TweetsController@sendTweet')
+    ->name('send_tweet');
