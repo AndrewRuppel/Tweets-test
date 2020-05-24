@@ -11,10 +11,14 @@
                     <label for="tweetCategory">Категория</label>
                     <select class="custom-select mr-sm-2" id="tweetCategory" required>
                         <option selected disabled>Выбрать</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}">{{$category->title}}</option>
+                        @endforeach
                     </select>
+                </div>
+                <div class="form-group mb-2">
+                    <label for="tweetUsername">Юзернейм</label>
+                    <input class="form-control" id="tweetUsername" required></input>
                 </div>
                 <div class="form-group mb-2">
                     <label for="tweetContent">Содержимое твита</label>
@@ -24,16 +28,17 @@
             </form>
 
             <div class="tweets">
-                @for($i = 0; $i < 5; $i++)
+                @foreach($tweets as $tweet)
                     <div class="card my-3 tweet">
                         <div class="card-header">
-                            Категория
+                            {{$tweet->category->title}}
                         </div>
                         <div class="card-body">
-                            <p class="card-text">Текст твита</p>
+                            <h3>{{$tweet->username}}</h3>
+                            <p class="card-text">{{$tweet->content}}</p>
                         </div>
                     </div>
-                @endfor
+                @endforeach
             </div>
 
         </div>
