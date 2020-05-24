@@ -1,0 +1,69 @@
+<template>
+    <div class="tweets">
+        <div class="card my-3 tweet"
+            v-for="tweet in tweets">
+            <div class="card-header">
+                {{tweet.category.title}}
+            </div>
+            <div class="card-body">
+                <h3>{{tweet.username}}</h3>
+                <p class="card-text">{{tweet.content}}</p>
+            </div>
+        </div>
+        <button class="btn btn-primary" @click="loadMore" v-if="isEnd === false">Загрузить еще</button>
+        <p v-else>Больше нет твитов</p>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "TweetsComponent",
+        data() {
+            return {
+                tweets: [],
+                lastId: null,
+                isEnd: false
+            }
+        },
+        mounted() {
+            axios.get('api/get_tweets')
+                .then(response => {
+                    this.tweets = response.data;
+                    this.lastId = this.tweets[this.tweets.length - 1].id;
+                    console.log(response);
+                    console.log(this.lastId);
+
+                })
+                .catch(error => {
+                    console.log(error.response);
+                })
+        },
+        methods: {
+            loadMore() {
+                axios.get('api/get_tweets', {
+                    params: {
+                        last_id: this.lastId ? this.lastId : null
+                    }
+                })
+                    .then(response => {
+                        console.log(response.data);
+
+                        if (response.data.length > 0) {
+                            this.tweets = this.tweets.concat(response.data)
+                            this.lastId = this.tweets[this.tweets.length - 1].id;
+                        } else {
+                            this.isEnd = true;
+                        }
+
+                    })
+                    .catch(error => {
+                        console.log(error.response);
+                    })
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

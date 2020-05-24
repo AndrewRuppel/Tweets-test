@@ -12,7 +12,7 @@
                 </div>
             @endif
 
-            <form class="form p-3 border rounded" action="{{route('send_tweet')}}" method="POST">
+            <form id="send" class="form p-3 border rounded" action="{{route('send_tweet')}}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="tweetCategory">Категория</label>
@@ -41,22 +41,11 @@
                               rows="3"
                               required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Отправить</button>
+
+                <button type="submit" class="btn btn-primary">Отправить твит</button>
             </form>
 
-            <div class="tweets">
-                @foreach($tweets as $tweet)
-                    <div class="card my-3 tweet">
-                        <div class="card-header">
-                            {{$tweet->category->title}}
-                        </div>
-                        <div class="card-body">
-                            <h3>{{$tweet->username}}</h3>
-                            <p class="card-text">{{$tweet->content}}</p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+            <tweets-component></tweets-component>
 
         </div>
     </div>
