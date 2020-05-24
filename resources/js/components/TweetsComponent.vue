@@ -2,8 +2,13 @@
     <div class="tweets">
         <div class="card my-3 tweet"
             v-for="tweet in tweets">
-            <div class="card-header">
-                {{ tweet.category ? tweet.category.title : '' }}
+            <div class="card-header d-flex flex-row justify-content-between">
+                <span>
+                    {{ tweet.category ? tweet.category.title : '' }}
+                </span>
+                <span>
+                    {{tweet.created_at ? tweet.created_at : ''}}
+                </span>
             </div>
             <div class="card-body">
                 <h3>{{tweet.username}}</h3>

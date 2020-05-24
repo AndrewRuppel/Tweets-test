@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Events\NewTweetsListener;
 use App\Tweet;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -49,7 +49,7 @@ class AddMessageJob implements ShouldQueue
             ]
         );
 
-        $data = $tweet->first()->load('category')->toArray();
+        $data = $tweet->load('category')->toArray();
 
         $pusher->trigger('my-channel', 'my-event', $data);
     }

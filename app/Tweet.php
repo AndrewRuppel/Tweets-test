@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Tweet extends Model
@@ -18,5 +19,10 @@ class Tweet extends Model
     public function category()
     {
         return $this->belongsTo('App\Category');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('d.m.Y H:i');
     }
 }

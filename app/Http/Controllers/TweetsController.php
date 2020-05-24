@@ -18,7 +18,6 @@ class TweetsController extends Controller
     }
 
     public function sendTweet(Request $request) {
-
         $this->validate($request, array(
             'category_id'   => 'required',
             'username'      => 'required',
